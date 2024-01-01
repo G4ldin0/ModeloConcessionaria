@@ -2,6 +2,11 @@ package Project.Exceptions;
 
 public class NoSpaceException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public NoSpaceException() {
 		// TODO Auto-generated constructor stub
 	}

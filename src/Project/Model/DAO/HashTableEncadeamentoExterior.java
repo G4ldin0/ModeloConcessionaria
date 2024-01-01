@@ -4,14 +4,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+import Project.Exceptions.DuplicateKeyException;
 import Project.Exceptions.KeynotfoundException;
 import Project.Model.Entity.Condutor;
 import Project.Model.Entity.Veiculo;
 
-public class HashTableEncadeamentoExterior {
+public class HashTableEncadeamentoExterior implements Servidor {
 	
 	private int tamanho;
-	private NodeTableEncadeamentoExterior tabela[];
+	private HeapNodes tabela[];
 	private int chavesUsadas;
 	
 	private FileWriter fw;
@@ -32,7 +33,7 @@ public class HashTableEncadeamentoExterior {
 	
 		i++;
 		tamanho = i;
-		tabela = new NodeTableEncadeamentoExterior[tamanho];
+		tabela = new HeapNodes[tamanho];
 		
 		
 		try {
@@ -55,31 +56,38 @@ public class HashTableEncadeamentoExterior {
 	private float fatorCarga() { return (float)chavesUsadas/(float)tamanho; }
 	
 	
-	public void add(Veiculo valor)
-	{
-		int hash = h(valor.renavam());
-		//michael jackson nao morreu ele so fez uma viagem na mente deixou lembraça no coração deixou saudades
-		
-		NodeTableEncadeamentoExterior pos = tabela[hash];
-		if(pos != null) 
-			pos.add(valor);
-		else {
-			tabela[hash] = new NodeTableEncadeamentoExterior(valor);
-			chavesUsadas++;
+	public void add(Veiculo valor) throws DuplicateKeyException
+	{	
+		//Antes de inserir o novo elemento de fato, checa se ele já não existe no sistema	
+		try {
+			search(valor.renavam());
+			throw new DuplicateKeyException();
+		} catch (KeynotfoundException e)
+		{
+			int hash = h(valor.renavam());
+			//michael jackson nao morreu ele so fez uma viagem na mente deixou lembraça no coração deixou saudades
+			
+			HeapNodes pos = tabela[hash];
+			if(pos != null) 
+				pos.add(valor);
+			else {
+				tabela[hash] = new HeapNodes(valor);
+				chavesUsadas++;
+			}
+			
+			log(hash, "Add");
 		}
-		
-		log(hash, "Add");
 	}
 	
 	public void edit(Veiculo valor) throws KeynotfoundException {
-		NodeTableEncadeamentoExterior ph = tabela[h(valor.renavam())];
-		ph.edit(valor, valor.renavam());
+		HeapNodes ph = tabela[h(valor.renavam())];
+		ph.edit(valor);
 	}
 
 	
 	public Veiculo search(long chave) throws KeynotfoundException
 	{
-		NodeTableEncadeamentoExterior ph = tabela[h(chave)];
+		HeapNodes ph = tabela[h(chave)];
 		
 		try {
 			return ph.elemento(chave);
@@ -93,13 +101,10 @@ public class HashTableEncadeamentoExterior {
 	public void remove(long chave) throws KeynotfoundException
 	{
 		int index = h(chave);
-		NodeTableEncadeamentoExterior result = tabela[index];
-		NodeTableEncadeamentoExterior anterior = null;
+		HeapNodes result = tabela[index];
 
-		try{
-			result.remove(chave);
-			if(result.tamanho() == 0) chavesUsadas--;
-		} catch ( KeynotfoundException e) { throw e; }
+		result.remove(chave);
+		if(result.tamanho() == 0) chavesUsadas--;
 		
 		log(chave, "Remove");
 		
@@ -109,7 +114,7 @@ public class HashTableEncadeamentoExterior {
 	public String list() {
 		String retorno = "";
 		
-		for(NodeTableEncadeamentoExterior e : tabela) {
+		for(HeapNodes e : tabela) {
 			if(e != null) {
 				Veiculo[] lista = e.getList();
 				for(Veiculo f : lista)

@@ -4,7 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-import Project.Exceptions.DuplicatedKeyException;
+import Project.Exceptions.DuplicateKeyException;
 import Project.Exceptions.KeynotfoundException;
 import Project.Exceptions.NoSpaceException;
 import Project.Model.DAO.Servidor;
@@ -60,7 +60,7 @@ public class HashTableEnderecamentoAberto implements Servidor{
 	private float fatorCarga() { return (float)chavesUsadas/(float)tamanho; }
 	
 	
-	public void add(Veiculo valor) throws NoSpaceException, DuplicatedKeyException {
+	public void add(Veiculo valor) throws NoSpaceException, DuplicateKeyException {
 		NodeTabela node = new NodeTabela(valor);
 		int k = 0;
 		int hash = h(node.Chave() + k);
@@ -69,7 +69,7 @@ public class HashTableEnderecamentoAberto implements Servidor{
 		NodeTabela target = tabela[hash];
 		while(target != null && k < tamanho -1) {
 			if(target.Chave() == valor.renavam())
-				throw new DuplicatedKeyException();
+				throw new DuplicateKeyException();
 			else {
 				k++;
 				hash = h(node.Chave() + k);

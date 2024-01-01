@@ -1,6 +1,6 @@
 package Project.Model.DAO.ArvoreAVL;
 
-import Project.Exceptions.DuplicatedKeyException;
+import Project.Exceptions.DuplicateKeyException;
 import Project.Exceptions.KeynotfoundException;
 import Project.Model.DAO.Servidor;
 import Project.Model.Entity.Veiculo;
@@ -27,18 +27,18 @@ public class ArvoreAVL implements Servidor{
 	
 	//-----------------------------------------------------------------------------------------//
 	
-	public void add(Veiculo valor) throws DuplicatedKeyException {
+	public void add(Veiculo valor) throws DuplicateKeyException {
 		try{
 			raiz = add(raiz, new NodeArvore(valor)); 
-		} catch(DuplicatedKeyException e ) {
+		} catch(DuplicateKeyException e ) {
 			throw e;
 		}
 	}
 	
-	private  NodeArvore add(NodeArvore origem, NodeArvore no) throws DuplicatedKeyException
+	private  NodeArvore add(NodeArvore origem, NodeArvore no) throws DuplicateKeyException
 	{
 		if(origem == null) { return no; }
-		else if(no.Chave() == origem.Chave()) { throw new DuplicatedKeyException();}
+		else if(no.Chave() == origem.Chave()) { throw new DuplicateKeyException();}
 		else if(no.Chave() < origem.Chave()) { origem.esquerda = add(origem.esquerda, no); }
 		else if(no.Chave() > origem.Chave()) { origem.direita = add(origem.direita, no); }
 

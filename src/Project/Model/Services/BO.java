@@ -1,6 +1,6 @@
 package Project.Model.Services;
 
-import Project.Exceptions.DuplicatedKeyException;
+import Project.Exceptions.DuplicateKeyException;
 import Project.Exceptions.KeynotfoundException;
 import Project.Exceptions.NoSpaceException;
 import Project.Model.DAO.*;
@@ -15,7 +15,7 @@ public class BO {
 	public static Servidor server = new HashTableEnderecamentoAberto(10);
 	
 	
-	public static void cadastrar(Package pacote) throws DuplicatedKeyException, NoSpaceException {
+	public static void cadastrar(Package pacote) throws DuplicateKeyException, NoSpaceException {
 		
 		String[] valores = Huffman.decodificar(pacote).split("@");
 		
