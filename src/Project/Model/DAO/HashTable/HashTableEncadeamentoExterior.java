@@ -1,4 +1,4 @@
-package Project.Model.DAO;
+package Project.Model.DAO.HashTable;
 
 import java.io.FileWriter;
 import java.io.IOException;
