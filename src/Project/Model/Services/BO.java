@@ -2,6 +2,7 @@ package Project.Model.Services;
 
 import Project.Exceptions.KeynotfoundException;
 import Project.Model.DAO.*;
+import Project.Model.DAO.ArvoreAVL.ArvoreAVL;
 import Project.Model.Entity.*;
 import Project.Model.Services.Compression.Huffman;
 import Project.Model.Services.Compression.Package;

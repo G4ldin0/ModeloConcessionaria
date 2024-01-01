@@ -1,7 +1,8 @@
-package Project.Model.DAO;
+package Project.Model.DAO.ArvoreAVL;
 
 import Project.Exceptions.DuplicatedKeyException;
 import Project.Exceptions.KeynotfoundException;
+import Project.Model.DAO.Servidor;
 import Project.Model.Entity.Veiculo;
 
 public class ArvoreAVL implements Servidor{
@@ -37,9 +38,9 @@ public class ArvoreAVL implements Servidor{
 	private  NodeArvore add(NodeArvore origem, NodeArvore no) throws DuplicatedKeyException
 	{
 		if(origem == null) { return no; }
-		else if(no.chave == origem.chave) { throw new DuplicatedKeyException();}
-		else if(no.chave < origem.chave) { origem.esquerda = add(origem.esquerda, no); }
-		else if(no.chave > origem.chave) { origem.direita = add(origem.direita, no); }
+		else if(no.Chave() == origem.Chave()) { throw new DuplicatedKeyException();}
+		else if(no.Chave() < origem.Chave()) { origem.esquerda = add(origem.esquerda, no); }
+		else if(no.Chave() > origem.Chave()) { origem.direita = add(origem.direita, no); }
 
 		origem.altura = 1 + Math.max(altura(origem.esquerda), altura(origem.direita));
 		int fb = fb(origem); origem.fb = fb;
@@ -81,18 +82,18 @@ public class ArvoreAVL implements Servidor{
 	public  Veiculo search(long chave) throws KeynotfoundException
 	{
 		try {
-			return search(raiz, chave).valor;
+			return search(raiz, chave).Valor();
 		} catch (KeynotfoundException e) {
 			throw e;
 		}
 	}
 	private  NodeArvore search(NodeArvore no, long chave) throws KeynotfoundException
 	{
-		if(chave == no.chave)
+		if(chave == no.Chave())
 			return no;
 		else
 		{
-			if(chave < no.chave)
+			if(chave < no.Chave())
 			{
 				if(no.esquerda != null)
 					return search(no.esquerda, chave);
@@ -100,7 +101,7 @@ public class ArvoreAVL implements Servidor{
 					throw new KeynotfoundException();
 			} else
 			{
-				if(no.chave > chave)
+				if(no.Chave() > chave)
 					return search(no.direita, chave);
 				else
 					throw new KeynotfoundException();
@@ -120,11 +121,11 @@ public class ArvoreAVL implements Servidor{
 		
 		if(no == null) throw new KeynotfoundException();
 		
-		if(no.chave > chave)
+		if(no.Chave() > chave)
 			{ no.esquerda = remove(no.esquerda, chave); }
-		else if(no.chave < chave)
+		else if(no.Chave() < chave)
 			{ no.direita = remove(no.direita, chave); }
-		else if(no.chave == chave)
+		else if(no.Chave() == chave)
 		{
 			if(no.esquerda == null && no.direita == null) { no = null; return no; }
 			else if(no.esquerda == null) { no = no.direita; }
@@ -134,14 +135,14 @@ public class ArvoreAVL implements Servidor{
 				
 				NodeArvore temp;
 				
-				if(no.chave > raiz.chave)
+				if(no.Chave() > raiz.Chave())
 				{
 					temp = no.esquerda;
 					while(temp.direita != null) { temp = temp.direita; }
 					
-					no.valor = temp.valor;
-					no.chave = temp.chave;
-					temp.chave = chave;
+					no.setValor(temp.Valor());
+					no.setChave(temp.Chave());
+					temp.setChave(chave);
 					
 					no.esquerda = remove(no.esquerda, chave);
 				}
@@ -150,9 +151,9 @@ public class ArvoreAVL implements Servidor{
 					temp = no.direita;
 					while(temp.esquerda != null) { temp = temp.esquerda; }
 					
-					no.valor = temp.valor;
-					no.chave = temp.chave;
-					temp.chave = chave;
+					no.setValor(temp.Valor());
+					no.setChave(temp.Chave());
+					temp.setChave(chave);
 					
 					no.direita = remove(no.direita, chave);
 				}
@@ -191,7 +192,7 @@ public class ArvoreAVL implements Servidor{
 		String ordem = new String();
 		
 		if(no.esquerda != null) ordem += list(no.esquerda);
-		if(no != null) ordem += no.valor.toString();
+		if(no != null) ordem += no.Valor().toString();
 		if(no.direita != null) ordem += list(no.direita);
 	
 		return ordem;

@@ -12,10 +12,10 @@ public abstract class node {
 		setChave(valor.renavam());
 	}
 	
-	public Veiculo getValor() { return valor;}
+	public Veiculo Valor() { return valor;}
 	public void setValor(Veiculo veiculo) { this.valor = veiculo; }
 	
-	public long getchave() { return chave;}
+	public long Chave() { return chave;}
 	public void setChave(long valor) { this.chave = valor; }
 	
 }
