@@ -1,30 +1,28 @@
 package Project.Model.Services;
 
+import Project.Exceptions.DuplicatedKeyException;
 import Project.Exceptions.KeynotfoundException;
+import Project.Exceptions.NoSpaceException;
 import Project.Model.DAO.*;
 import Project.Model.DAO.ArvoreAVL.ArvoreAVL;
+import Project.Model.DAO.HashTable.HashTableEnderecamentoAberto;
 import Project.Model.Entity.*;
 import Project.Model.Services.Compression.Huffman;
 import Project.Model.Services.Compression.Package;
 
 public class BO {
 
-	public static Servidor server = new ArvoreAVL();
+	public static Servidor server = new HashTableEnderecamentoAberto(10);
 	
 	
-	public static void cadastrar(Package pacote) throws Exception {
+	public static void cadastrar(Package pacote) throws DuplicatedKeyException, NoSpaceException {
 		
 		String[] valores = Huffman.decodificar(pacote).split("@");
 		
 		Veiculo entrada = new Veiculo(Long.parseLong(valores[0]), valores[1], new Condutor(valores[2], valores[3]), valores[4], Integer.parseInt(valores[5]));
 		server.add(entrada);
 	}
-	
-	public static void cadastrar(Veiculo veiculo) throws Exception { 
-		try {
-			server.add(veiculo); } 
-		catch( Exception e) { throw e; }
-	}
+
 	
 	
 	public static Package buscar(Package pacote) throws KeynotfoundException
@@ -33,17 +31,12 @@ public class BO {
 		long renavam = Long.parseLong(valores[0]);
 		String placa = valores[1];
 		
-		Veiculo retorno;
-		try {
-			retorno = server.search(renavam);
-			if(retorno.placa().equals(placa)) {
-				return Huffman.codificar(retorno.info());
-			}
-			else
-				throw new KeynotfoundException();
-		} catch (KeynotfoundException e) {
-			throw e;
+		Veiculo retorno = server.search(renavam);
+		if(retorno.placa().equals(placa)) {
+			return Huffman.codificar(retorno.info());
 		}
+		else
+			throw new KeynotfoundException();
 	}
 	
 	

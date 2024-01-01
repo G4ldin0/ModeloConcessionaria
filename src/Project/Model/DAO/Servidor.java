@@ -1,12 +1,12 @@
 package Project.Model.DAO;
 
-import Project.Exceptions.DuplicatedKeyException;
-import Project.Exceptions.KeynotfoundException;
+import java.io.IOException;
+import Project.Exceptions.*;
 import Project.Model.Entity.Veiculo;
 
 public interface Servidor {
 
-	public void add(Veiculo valor) throws DuplicatedKeyException;
+	public void add(Veiculo valor) throws DuplicatedKeyException, NoSpaceException;
 	
 	public Veiculo search(long chave) throws KeynotfoundException;
 	

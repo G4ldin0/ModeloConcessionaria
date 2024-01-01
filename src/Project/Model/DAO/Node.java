@@ -2,11 +2,11 @@ package Project.Model.DAO;
 
 import Project.Model.Entity.Veiculo;
 
-public abstract class node {
+public abstract class Node {
 	
 	private Veiculo valor;
 	
-	public node(Veiculo veiculo) {
+	public Node(Veiculo veiculo) {
 		valor = veiculo;
 	}
 	
