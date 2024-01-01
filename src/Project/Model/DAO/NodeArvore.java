@@ -1,0 +1,19 @@
+package Project.Model.DAO;
+
+import Project.Model.Entity.*;
+
+public class NodeArvore extends node{
+	
+	public int fb;
+	public int altura;
+	public NodeArvore pai;
+	public NodeArvore esquerda;
+	public NodeArvore direita;
+	
+	public NodeArvore(Veiculo Valor)
+	{
+		super(Valor);
+		fb = 0;
+		altura = 0;
+	}
+}
