@@ -4,7 +4,7 @@ import Project.Exceptions.DuplicatedKeyException;
 import Project.Exceptions.KeynotfoundException;
 import Project.Model.Entity.Veiculo;
 
-public class ArvoreAVL {
+public class ArvoreAVL implements Servidor{
 	 NodeArvore raiz;
 	
 	//-----------------------------------------------------------------------------------------//
@@ -26,7 +26,7 @@ public class ArvoreAVL {
 	
 	//-----------------------------------------------------------------------------------------//
 	
-	public void add(long chave, Veiculo valor) throws DuplicatedKeyException {
+	public void add(Veiculo valor) throws DuplicatedKeyException {
 		try{
 			raiz = add(raiz, new NodeArvore(valor)); 
 		} catch(DuplicatedKeyException e ) {
@@ -78,10 +78,10 @@ public class ArvoreAVL {
 	
 	//--------------------------------------------------------------------------------------//
 	
-	public  NodeArvore search(long chave) throws KeynotfoundException
+	public  Veiculo search(long chave) throws KeynotfoundException
 	{
 		try {
-			return search(raiz, chave);
+			return search(raiz, chave).valor;
 		} catch (KeynotfoundException e) {
 			throw e;
 		}

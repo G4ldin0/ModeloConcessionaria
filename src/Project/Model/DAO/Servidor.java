@@ -8,7 +8,7 @@ public interface Servidor {
 
 	public void add(Veiculo valor) throws DuplicatedKeyException;
 	
-	public node search(long chave) throws KeynotfoundException;
+	public Veiculo search(long chave) throws KeynotfoundException;
 	
 	public void remove(long chave) throws KeynotfoundException;
 	
