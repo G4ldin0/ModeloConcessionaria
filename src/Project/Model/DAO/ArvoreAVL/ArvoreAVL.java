@@ -101,7 +101,7 @@ public class ArvoreAVL implements Servidor{
 					throw new KeynotfoundException();
 			} else
 			{
-				if(no.Chave() > chave)
+				if(chave >  no.Chave())
 					return search(no.direita, chave);
 				else
 					throw new KeynotfoundException();
@@ -141,10 +141,8 @@ public class ArvoreAVL implements Servidor{
 					while(temp.direita != null) { temp = temp.direita; }
 					
 					no.setValor(temp.Valor());
-					no.setChave(temp.Chave());
-					temp.setChave(chave);
 					
-					no.esquerda = remove(no.esquerda, chave);
+					no.esquerda = remove(no.esquerda, temp.Chave());
 				}
 				else
 				{
@@ -152,10 +150,8 @@ public class ArvoreAVL implements Servidor{
 					while(temp.esquerda != null) { temp = temp.esquerda; }
 					
 					no.setValor(temp.Valor());
-					no.setChave(temp.Chave());
-					temp.setChave(chave);
 					
-					no.direita = remove(no.direita, chave);
+					no.direita = remove(no.direita, temp.Chave());
 				}
 
 				return no;

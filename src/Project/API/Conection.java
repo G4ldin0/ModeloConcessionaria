@@ -49,7 +49,7 @@ public class Conection
         
         for(int i = 0; i < 5; i++) {
 			try {
-				cadastrar(12345678901L + i, placas[i], nomes[i], cpfs[i], modelos[i], anos[i]);
+				System.out.println(cadastrar(12345678901L + i, placas[i], nomes[i], cpfs[i], modelos[i], anos[i]));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -14,11 +14,14 @@ public class HashTableEnderecamentoAberto {
 	public NodeTableEnderecamentoAberto tabela[];
 	private int chavesUsadas;
 	
+	
+	
 	private FileWriter fw;
 	
 	public int tamanho() {return tamanho; }
 	
 	public HashTableEnderecamentoAberto(int tam) {
+		
 		int i = tam;
 		int j = 1;
 		int diferenca = Math.abs(tam - j);
@@ -55,9 +58,11 @@ public class HashTableEnderecamentoAberto {
 	private float fatorCarga() { return (float)chavesUsadas/(float)tamanho; }
 	
 	
-	public void add(NodeTableEnderecamentoAberto node) throws Exception {
+	public void add(Veiculo valor) throws Exception {
+		NodeTableEnderecamentoAberto node = new NodeTableEnderecamentoAberto(valor);
 		int k = 0;
 		int hash = h(node.getChave() + k);
+		
 		
 		NodeTableEnderecamentoAberto target = tabela[hash];
 		while(target != null && k < tamanho -1) {
@@ -65,8 +70,11 @@ public class HashTableEnderecamentoAberto {
 			hash = h(node.getChave() + k);
 			target = tabela[hash];
 		}
+		
 		if (k == tamanho -1) throw new Exception();
+		
 		else { tabela[hash] = node; chavesUsadas++; }
+		
 		
 		try {
 			fw.append("log=" + LocalDateTime.now() + " fator:" + chavesUsadas + "/" + tamanho + ":" + fatorCarga() + " add:" + hash +"\n");

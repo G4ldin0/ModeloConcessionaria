@@ -18,6 +18,8 @@ public class HashTable{
 	
 	private FileWriter fw;
 	
+	
+	
 	public HashTable(int tam) {
 		//decidir o tamanho da tabela
 		int i = tam;
@@ -29,9 +31,8 @@ public class HashTable{
 			i = j;
 		}
 		boolean primo = false;
-		for(; !primo; i--) {
-			primo = primo(i);
-		}
+		for(; !primo; i--) { primo = primo(i); }
+		
 		i++;
 		tamanho = i;
 		tabela = new NodeTabela[tamanho];
@@ -58,7 +59,7 @@ public class HashTable{
 	
 	
 	public void add(long chave, Veiculo valor) throws DuplicatedKeyException {
-		// TODO Auto-generated method stub
+		
 		int hash = h(chave);
 		
 		//não possui tratamento de colisões ainda
