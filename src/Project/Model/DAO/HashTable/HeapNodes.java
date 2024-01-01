@@ -3,48 +3,43 @@ package Project.Model.DAO;
 import java.util.LinkedList;
 
 import Project.Exceptions.KeynotfoundException;
+import Project.Model.DAO.HashTable.NodeTabela;
 import Project.Model.Entity.Veiculo;
 
-class conteudo{
-	public Veiculo valor;
-	public long chave;
-	
-	public conteudo(Veiculo v, long c) { valor = v; chave = c;}
-}
 
-public class NodeTableEncadeamentoExterior {
+public class HeapNodes {
 
-	private LinkedList<conteudo>heap = new LinkedList<conteudo>();
+	private LinkedList<NodeTabela>heap = new LinkedList<NodeTabela>();
 
-	public NodeTableEncadeamentoExterior() {}
+	public HeapNodes() {}
 
-	public NodeTableEncadeamentoExterior(Veiculo valor) {add(valor);}
+	public HeapNodes(Veiculo valor) {add(valor);}
 	
 	public int tamanho() { return heap.size(); }
 	
 	public void add(Veiculo valor) {
-		heap.add(new conteudo(valor, valor.renavam()));
+		heap.add(new NodeTabela(valor));
 	}
 
 	public Veiculo elemento() {
-		return heap.getFirst().valor;
+		return heap.getFirst().Valor();
 	}
 	
 	public Veiculo elemento(long chave) throws KeynotfoundException {
 		try { 
 			int index = get(chave);
-			conteudo getted = heap.remove(index);
-			heap.addFirst(new conteudo(getted.valor, chave));
-			return getted.valor;
+			NodeTabela got = heap.remove(index);
+			heap.addFirst(got);
+			return got.Valor();
 			}
 		catch (KeynotfoundException e) {throw e; }
 	}
 	
-	public void edit(Veiculo valor, long chave) throws KeynotfoundException{
+	public void edit(Veiculo valor) throws KeynotfoundException{
 		try {
-			int index = get(chave);
+			int index = get(valor.renavam());
 			heap.remove(index);
-			heap.addFirst(new conteudo(valor, chave));
+			heap.addFirst(new NodeTabela(valor));
 		} catch (KeynotfoundException e) { throw e; }
 	}
 	
@@ -57,15 +52,15 @@ public class NodeTableEncadeamentoExterior {
 	public Veiculo[] getList() {
 		Veiculo[] r = new Veiculo[heap.size()];
 		for(int i = 0; i < heap.size(); i++) {
-			r[i] = heap.get(i).valor;
+			r[i] = heap.get(i).Valor();
 		}
 		return r;
 	}
 	
 	private int get(long chave) throws KeynotfoundException { 
 		int index = 0;
-		for(conteudo e : heap) {
-			if (e.chave != chave) index++;
+		for(NodeTabela e : heap) {
+			if (e.Chave() != chave) index++;
 			else break;
 		}
 		if (index == heap.size()) throw new KeynotfoundException();

@@ -47,9 +47,9 @@ public class Conection
 		           2020, 2018, 2021, 2022, 2019, 2021, 2020, 2021, 2019, 2022};
 
         
-        for(int i = 0; i < 50; i++) {
+        for(int i = 0; i < 5; i++) {
 			try {
-				cadastrar(12345678901L + i, placas[i], nomes[i], cpfs[i], modelos[i], anos[i]);
+				System.out.println(cadastrar(12345678901L + i, placas[i], nomes[i], cpfs[i], modelos[i], anos[i]));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

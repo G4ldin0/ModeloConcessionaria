@@ -1,12 +1,12 @@
 package Project.Exceptions;
 
-public class KeyException extends Exception {
+public class DuplicateKeyException extends KeyException {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public KeyException() {
+	public DuplicateKeyException() {
 		super();
 	}
 }

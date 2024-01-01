@@ -1,10 +1,11 @@
-package Project.Model.DAO;
+package Project.Model.DAO.ArvoreAVL;
 
-import Project.Exceptions.DuplicatedKeyException;
+import Project.Exceptions.DuplicateKeyException;
 import Project.Exceptions.KeynotfoundException;
+import Project.Model.DAO.Servidor;
 import Project.Model.Entity.Veiculo;
 
-public class ArvoreAVL {
+public class ArvoreAVL implements Servidor{
 	 NodeArvore raiz;
 	
 	//-----------------------------------------------------------------------------------------//
@@ -26,20 +27,20 @@ public class ArvoreAVL {
 	
 	//-----------------------------------------------------------------------------------------//
 	
-	public void add(long chave, Veiculo valor) throws DuplicatedKeyException {
+	public void add(Veiculo valor) throws DuplicateKeyException {
 		try{
 			raiz = add(raiz, new NodeArvore(valor)); 
-		} catch(DuplicatedKeyException e ) {
+		} catch(DuplicateKeyException e ) {
 			throw e;
 		}
 	}
 	
-	private  NodeArvore add(NodeArvore origem, NodeArvore no) throws DuplicatedKeyException
+	private  NodeArvore add(NodeArvore origem, NodeArvore no) throws DuplicateKeyException
 	{
 		if(origem == null) { return no; }
-		else if(no.chave == origem.chave) { throw new DuplicatedKeyException();}
-		else if(no.chave < origem.chave) { origem.esquerda = add(origem.esquerda, no); }
-		else if(no.chave > origem.chave) { origem.direita = add(origem.direita, no); }
+		else if(no.Chave() == origem.Chave()) { throw new DuplicateKeyException();}
+		else if(no.Chave() < origem.Chave()) { origem.esquerda = add(origem.esquerda, no); }
+		else if(no.Chave() > origem.Chave()) { origem.direita = add(origem.direita, no); }
 
 		origem.altura = 1 + Math.max(altura(origem.esquerda), altura(origem.direita));
 		int fb = fb(origem); origem.fb = fb;
@@ -78,21 +79,21 @@ public class ArvoreAVL {
 	
 	//--------------------------------------------------------------------------------------//
 	
-	public  NodeArvore search(long chave) throws KeynotfoundException
+	public  Veiculo search(long chave) throws KeynotfoundException
 	{
 		try {
-			return search(raiz, chave);
+			return search(raiz, chave).Valor();
 		} catch (KeynotfoundException e) {
 			throw e;
 		}
 	}
 	private  NodeArvore search(NodeArvore no, long chave) throws KeynotfoundException
 	{
-		if(chave == no.chave)
+		if(chave == no.Chave())
 			return no;
 		else
 		{
-			if(chave < no.chave)
+			if(chave < no.Chave())
 			{
 				if(no.esquerda != null)
 					return search(no.esquerda, chave);
@@ -100,7 +101,7 @@ public class ArvoreAVL {
 					throw new KeynotfoundException();
 			} else
 			{
-				if(no.chave > chave)
+				if(chave >  no.Chave())
 					return search(no.direita, chave);
 				else
 					throw new KeynotfoundException();
@@ -120,11 +121,11 @@ public class ArvoreAVL {
 		
 		if(no == null) throw new KeynotfoundException();
 		
-		if(no.chave > chave)
+		if(no.Chave() > chave)
 			{ no.esquerda = remove(no.esquerda, chave); }
-		else if(no.chave < chave)
+		else if(no.Chave() < chave)
 			{ no.direita = remove(no.direita, chave); }
-		else if(no.chave == chave)
+		else if(no.Chave() == chave)
 		{
 			if(no.esquerda == null && no.direita == null) { no = null; return no; }
 			else if(no.esquerda == null) { no = no.direita; }
@@ -134,27 +135,23 @@ public class ArvoreAVL {
 				
 				NodeArvore temp;
 				
-				if(no.chave > raiz.chave)
+				if(no.Chave() > raiz.Chave())
 				{
 					temp = no.esquerda;
 					while(temp.direita != null) { temp = temp.direita; }
 					
-					no.valor = temp.valor;
-					no.chave = temp.chave;
-					temp.chave = chave;
+					no.setValor(temp.Valor());
 					
-					no.esquerda = remove(no.esquerda, chave);
+					no.esquerda = remove(no.esquerda, temp.Chave());
 				}
 				else
 				{
 					temp = no.direita;
 					while(temp.esquerda != null) { temp = temp.esquerda; }
 					
-					no.valor = temp.valor;
-					no.chave = temp.chave;
-					temp.chave = chave;
+					no.setValor(temp.Valor());
 					
-					no.direita = remove(no.direita, chave);
+					no.direita = remove(no.direita, temp.Chave());
 				}
 
 				return no;
@@ -191,7 +188,7 @@ public class ArvoreAVL {
 		String ordem = new String();
 		
 		if(no.esquerda != null) ordem += list(no.esquerda);
-		if(no != null) ordem += no.valor.toString();
+		if(no != null) ordem += no.Valor().toString();
 		if(no.direita != null) ordem += list(no.direita);
 	
 		return ordem;

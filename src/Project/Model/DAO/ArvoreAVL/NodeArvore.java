@@ -1,8 +1,9 @@
-package Project.Model.DAO;
+package Project.Model.DAO.ArvoreAVL;
 
+import Project.Model.DAO.Node;
 import Project.Model.Entity.*;
 
-public class NodeArvore extends node{
+public class NodeArvore extends Node{
 	
 	public int fb;
 	public int altura;
