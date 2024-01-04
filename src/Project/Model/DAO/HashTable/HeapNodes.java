@@ -1,9 +1,9 @@
-package Project.Model.DAO;
+package Project.Model.DAO.HashTable;
+
 
 import java.util.LinkedList;
 
 import Project.Exceptions.KeynotfoundException;
-import Project.Model.DAO.HashTable.NodeTabela;
 import Project.Model.Entity.Veiculo;
 
 

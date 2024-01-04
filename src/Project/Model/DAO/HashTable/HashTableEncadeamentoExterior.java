@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 
 import Project.Exceptions.DuplicateKeyException;
 import Project.Exceptions.KeynotfoundException;
-import Project.Model.Entity.Condutor;
-import Project.Model.Entity.Veiculo;
+import Project.Model.DAO.Servidor;
+import Project.Model.Entity.*;
 
 public class HashTableEncadeamentoExterior implements Servidor {
 	
